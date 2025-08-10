@@ -2,6 +2,9 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import GlowCard from '@/components/ui/glow-card.jsx'
 import { ArrowUpRight } from 'lucide-react'
+import portfolioImg from "../../assets-projects/portfolio.png";
+import githubimg from "../../assets-projects/github.png";
+
 
 // Replace your CARDS definition with this:
 import { useState } from "react";
@@ -12,7 +15,7 @@ const CARDS = [
     title: "3D Portfolio Website",
     tag: "3D models website using three.js",
     link: "https://github.com/kh-ub-ayb/khubayb-portfolio",
-    image: "/public/assets-projects/portfolio.png",
+    image: portfolioImg,
     description: "Designed and developed a visually stunning portfolio website to showcase intricate 3D models, with a focus on responsive design and user interaction. This portfolio project features a collection of interactive 3D models, rendered using Three.js. The website is built with modern frontend technologies including React, Vite, and Tailwind CSS, ensuring a seamless and engaging user experience across all devices. It highlights technical skills in 3D modeling, web development, and creating dynamic user interfaces.."
   },
   {
@@ -20,7 +23,7 @@ const CARDS = [
     title: "GitHub Profile Readme",
     tag: "Personal and interactive GitHub profile README",
     link: "https://github.com/kh-ub-ayb/kh-ub-ayb",
-    image: "/public/assets-projects/github.png",
+    image: githubimg,
     description: "Created a personal and interactive GitHub profile README to effectively showcase skills, projects, and contributions in a visually engaging format. This project involved designing and implementing a dynamic GitHub profile README using Markdown and GitHub Actions. It features embedded statistics, technology icons, and a custom snake animation to visualize contribution activity. The goal was to create an engaging and informative overview of my technical expertise and development activities, providing visitors with a clear and compelling summary of my skills.."
   },
 ];
