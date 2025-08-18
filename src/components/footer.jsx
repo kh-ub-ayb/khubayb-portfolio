@@ -3,18 +3,66 @@ import { Github, Linkedin, Twitter, Instagram, Copyright } from 'lucide-react'
 
 function VisitorCounter() {
   const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    try {
-      const key = 'khubayb-visitor-count'
-      const prev = Number(localStorage.getItem(key) || '0')
-      const next = prev + 1
-      localStorage.setItem(key, String(next))
-      setCount(next)
-    } catch {
-      setCount((c) => (c ? c : 1))
+    const fetchVisitorCount = async () => {
+      try {
+        // Check if we've already counted this session to prevent double counting
+        const sessionKey = 'khubayb-visitor-session'
+        const hasCountedThisSession = sessionStorage.getItem(sessionKey)
+        
+        if (hasCountedThisSession) {
+          // Just get the current count without incrementing
+          const response = await fetch('https://api.countapi.xyz/get/khubayb-portfolio/visits')
+          const data = await response.json()
+          
+          if (data.value) {
+            setCount(data.value)
+          } else {
+            // Fallback to localStorage if API fails
+            const key = 'khubayb-visitor-count-fallback'
+            const stored = Number(localStorage.getItem(key) || '0')
+            setCount(stored)
+          }
+        } else {
+          // First time this session - increment the count
+          const response = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
+          const data = await response.json()
+          
+          if (data.value) {
+            setCount(data.value)
+            // Mark this session as counted
+            sessionStorage.setItem(sessionKey, 'true')
+          } else {
+            // Fallback to localStorage if API fails
+            const key = 'khubayb-visitor-count-fallback'
+            const prev = Number(localStorage.getItem(key) || '0')
+            const next = prev + 1
+            localStorage.setItem(key, String(next))
+            setCount(next)
+            sessionStorage.setItem(sessionKey, 'true')
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch visitor count:', error)
+        // Fallback to localStorage if API fails
+        const key = 'khubayb-visitor-count-fallback'
+        const prev = Number(localStorage.getItem(key) || '0')
+        const next = prev + 1
+        localStorage.setItem(key, String(next))
+        setCount(next)
+      } finally {
+        setLoading(false)
+      }
     }
+
+    fetchVisitorCount()
   }, [])
+
+  if (loading) {
+    return <span className="font-medium">...</span>
+  }
 
   return <span className="font-medium">{count.toLocaleString()}</span>
 }
@@ -48,5 +96,3 @@ export default function Footer() {
     </footer>
   )
 }
-
-
