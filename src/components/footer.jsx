@@ -17,41 +17,42 @@ function VisitorCounter() {
           const response = await fetch('https://api.countapi.xyz/get/khubayb-portfolio/visits')
           const data = await response.json()
           
-          if (data.value) {
+          if (data.value !== undefined) {
             setCount(data.value)
           } else {
-            // Fallback to localStorage if API fails
-            const key = 'khubayb-visitor-count-fallback'
-            const stored = Number(localStorage.getItem(key) || '0')
-            setCount(stored)
+            // If API returns no value, try to get it anyway
+            const hitResponse = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
+            const hitData = await hitResponse.json()
+            if (hitData.value !== undefined) {
+              setCount(hitData.value)
+              sessionStorage.setItem(sessionKey, 'true')
+            }
           }
         } else {
           // First time this session - increment the count
           const response = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
           const data = await response.json()
           
-          if (data.value) {
+          if (data.value !== undefined) {
             setCount(data.value)
             // Mark this session as counted
-            sessionStorage.setItem(sessionKey, 'true')
-          } else {
-            // Fallback to localStorage if API fails
-            const key = 'khubayb-visitor-count-fallback'
-            const prev = Number(localStorage.getItem(key) || '0')
-            const next = prev + 1
-            localStorage.setItem(key, String(next))
-            setCount(next)
             sessionStorage.setItem(sessionKey, 'true')
           }
         }
       } catch (error) {
         console.error('Failed to fetch visitor count:', error)
-        // Fallback to localStorage if API fails
-        const key = 'khubayb-visitor-count-fallback'
-        const prev = Number(localStorage.getItem(key) || '0')
-        const next = prev + 1
-        localStorage.setItem(key, String(next))
-        setCount(next)
+        // Try one more time without session check
+        try {
+          const response = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
+          const data = await response.json()
+          if (data.value !== undefined) {
+            setCount(data.value)
+            sessionStorage.setItem(sessionKey, 'true')
+          }
+        } catch (retryError) {
+          console.error('Retry failed:', retryError)
+          setCount(0)
+        }
       } finally {
         setLoading(false)
       }
