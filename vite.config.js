@@ -4,7 +4,7 @@ import path from 'node:path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/khubayb-portfolio',
+  base: '/khubayb-portfolio/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
