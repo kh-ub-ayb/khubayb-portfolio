@@ -67,9 +67,9 @@ export default function Hero() {
           <ModelCanvas
             src="./assets/3d/hacker-room.glb"
             autoRotate
-            rotateSpeed={0.8}
-            scale={1.35}
-            cameraPosition={[3.6, 2.2, 5.4]}
+            rotateSpeed={0}
+            scale={1.75}
+            cameraPosition={[5.0, 2.0, 0.15]}
           />
         </React.Suspense>
       </motion.div>
