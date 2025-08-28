@@ -8,14 +8,16 @@ const ITEMS = [
     title: "Seeking for opportunities",
     company: "",
     duration: "",
-    description: ""
+    description: "",
+    logo: "" // Add a logo URL here
   },
   // {
   //   id: 2,
   //   title: "",
   //   company: "",
   //   duration: "month 20XX - Present",
-  //   description: ""
+  //   description: "",
+  //   logo: "" // Add a logo URL here
   // }
 ]
 
@@ -47,6 +49,9 @@ export default function ExperienceSection() {
             >
               <div className="absolute left-[-31px] top-6 h-8 w-8 rounded-full bg-gradient-to-b from-fuchsia-600 to-rose-600 shadow-[0_8px_30px_rgba(168,85,247,0.5)]" />
               <GlowCard className="p-5">
+                {it.logo && (
+                  <img src={it.logo} alt={`${it.company} logo`} className="mb-4 h-12 w-12 object-contain" />
+                )}
                 <div className="text-lg font-semibold text-white">{it.title}</div>
                 <div className="text-sm text-white/60">{it.company} — {it.duration}</div>
                 <p className="mt-2 text-sm text-white/70">{it.description}</p>

@@ -1,72 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Github, Linkedin, Twitter, Instagram, Copyright } from 'lucide-react'
-
-function VisitorCounter() {
-  const [count, setCount] = useState(0)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchVisitorCount = async () => {
-      try {
-        // Check if we've already counted this session to prevent double counting
-        const sessionKey = 'khubayb-visitor-session'
-        const hasCountedThisSession = sessionStorage.getItem(sessionKey)
-        
-        if (hasCountedThisSession) {
-          // Just get the current count without incrementing
-          const response = await fetch('https://api.countapi.xyz/get/khubayb-portfolio/visits')
-          const data = await response.json()
-          
-          if (data.value !== undefined) {
-            setCount(data.value)
-          } else {
-            // If API returns no value, try to get it anyway
-            const hitResponse = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
-            const hitData = await hitResponse.json()
-            if (hitData.value !== undefined) {
-              setCount(hitData.value)
-              sessionStorage.setItem(sessionKey, 'true')
-            }
-          }
-        } else {
-          // First time this session - increment the count
-          const response = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
-          const data = await response.json()
-          
-          if (data.value !== undefined) {
-            setCount(data.value)
-            // Mark this session as counted
-            sessionStorage.setItem(sessionKey, 'true')
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch visitor count:', error)
-        // Try one more time without session check
-        try {
-          const response = await fetch('https://api.countapi.xyz/hit/khubayb-portfolio/visits')
-          const data = await response.json()
-          if (data.value !== undefined) {
-            setCount(data.value)
-            sessionStorage.setItem(sessionKey, 'true')
-          }
-        } catch (retryError) {
-          console.error('Retry failed:', retryError)
-          setCount(0)
-        }
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchVisitorCount()
-  }, [])
-
-  if (loading) {
-    return <span className="font-medium">...</span>
-  }
-
-  return <span className="font-medium">{count.toLocaleString()}</span>
-}
 
 export default function Footer() {
   return (
@@ -86,8 +19,6 @@ export default function Footer() {
             <Github className="h-5 w-5" />
           </a>
         </div>
-
-        <div className="text-sm text-white/70">Visitors: <VisitorCounter /></div>
 
         <div className="flex items-center gap-2 text-xs text-white/60">
           <Copyright className="h-4 w-4" />

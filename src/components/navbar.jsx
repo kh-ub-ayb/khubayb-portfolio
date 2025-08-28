@@ -11,6 +11,7 @@ const NAV = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -23,6 +24,7 @@ export default function Navbar() {
     e.preventDefault()
     const el = document.querySelector(id)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setMenuOpen(false) // Close menu after navigation
   }
 
   return (
@@ -51,26 +53,38 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-        <select
-          aria-label="Navigate sections"
+        <button
           className="md:hidden rounded-md bg-white/5 px-2 py-1 text-sm"
-          onChange={(e) => {
-            const v = e.target.value
-            const el = document.querySelector(v)
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          }}
-          defaultValue=""
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
         >
-          <option value="" disabled>
-            Menu
-          </option>
-          {NAV.map((i) => (
-            <option key={i.href} value={i.href}>
-              {i.label}
-            </option>
-          ))}
-        </select>
+          {menuOpen ? 'Close' : 'Menu'}
+        </button>
       </nav>
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-black/80">
+          <div className="sticky inset-0 -z-10" />
+          <div className="flex flex-col items-start p-6  bg-black opacity-80">
+            <button
+              className="mb-4 text-white text-lg"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              ×
+            </button>
+            {NAV.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => handleClick(e, item.href)}
+                className="w-full mb-4 text-white text-lg bg-white/10 px-4 py-2 hover:bg-white/20"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   )
 }
