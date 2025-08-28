@@ -139,7 +139,7 @@ export default function ContactSection() {
         </form>
       </GlowCard>
 
-      <div className="p-0 overflow-hidden rounded-lg border border-white/10">
+      <div className="p-0 overflow-hidden rounded-xl border border-white/10">
         <div className="aspect-video w-full">
           <React.Suspense fallback={null}>
             <ModelCanvas
