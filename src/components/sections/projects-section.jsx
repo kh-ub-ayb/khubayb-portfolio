@@ -2,8 +2,8 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import GlowCard from '@/components/ui/glow-card.jsx'
 import { ArrowUpRight } from 'lucide-react'
-import portfolioImg from "../../assets-projects/portfolio.png";
-import githubimg from "../../assets-projects/github.png";
+import portfolioImg from "../../assets/portfolio.png";
+import githubimg from "../../assets/github.png";
 
 
 // Replace your CARDS definition with this:

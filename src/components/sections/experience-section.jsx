@@ -1,17 +1,12 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import GlowCard from '@/components/ui/glow-card.jsx'
+import gsocLogo from "../../assets/GSOC.webp";
+import sugarLogo from "../../assets/sugarlabs-logo.svg";
 
 const ITEMS = [
-  {
-    id: 1,
-    title: "Seeking for opportunities",
-    company: "",
-    duration: "",
-    description: "",
-    logo: "" // Add a logo URL here
-  },
-  // {
+
+    // {
   //   id: 2,
   //   title: "",
   //   company: "",
@@ -19,6 +14,23 @@ const ITEMS = [
   //   description: "",
   //   logo: "" // Add a logo URL here
   // }
+
+  {
+    id: 1,
+    title: "SDE",
+    company: "Google Summer of Code",
+    duration: "May 2026 - September 2026",
+    description: "",
+    logo: gsocLogo // Add a logo URL here
+  },
+  {
+    id: 2,
+    title: "Open Source Contributor",
+    company: "Sugar Labs",
+    duration: "Aug 2025 - Present",
+    description: "",
+    logo: sugarLogo // Add a logo URL here
+  }
 ]
 
 export default function ExperienceSection() {
